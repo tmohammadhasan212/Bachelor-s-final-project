@@ -51,6 +51,6 @@ The expected outcome of this project is to determine the classification model wi
 ## How to Use
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/heart-attack-classification.git
-   cd heart-attack-classification
+   https://github.com/tmohammadhasan212/Bachelor-s-final-project.git
+   
 
