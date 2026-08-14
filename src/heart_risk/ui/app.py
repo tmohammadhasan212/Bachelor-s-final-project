@@ -3,8 +3,17 @@ Interactive Clinical Decision Support Dashboard (Streamlit).
 Early Cardiovascular Risk Stratification, Explainable AI (XAI), and Counterfactual Lifestyle Simulator.
 """
 
-import json
+import os
+import sys
 from pathlib import Path
+
+# Automatically inject repository root into Python path
+CURRENT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = CURRENT_DIR.parent.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import json
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -22,6 +31,7 @@ from src.heart_risk.explainability.shap_engine import (
     ClinicalExplainer,
 )
 from src.heart_risk.models.train import train_and_export_models
+from src.heart_risk.api.routes import generate_clinical_recommendation
 from src.heart_risk.ui.components import (
     plot_dca_curve,
     plot_waterfall_chart,
