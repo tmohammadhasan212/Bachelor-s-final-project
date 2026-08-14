@@ -1,0 +1,60 @@
+# Heart Risk Clinical Decision Support System Configuration
+
+project:
+  name: "heart-risk-cds"
+  version: "1.0.0"
+  random_seed: 42
+
+paths:
+  raw_data: "data/raw/heart.csv"
+  processed_data_dir: "data/processed"
+  models_dir: "models/saved"
+  figures_dir: "reports/figures"
+
+data:
+  target_column: "target"
+  numerical_features:
+    - "age"
+    - "trestbps"
+    - "chol"
+    - "thalach"
+    - "oldpeak"
+  categorical_features:
+    - "sex"
+    - "cp"
+    - "fbs"
+    - "restecg"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
+  feature_engineering:
+    enabled: true
+    add_pulse_pressure: true
+    add_hr_reserve_ratio: true
+    add_chol_age_ratio: true
+    add_exercise_risk_index: true
+
+clinical_thresholds:
+  low_risk: 0.25
+  moderate_risk: 0.50
+  high_risk: 0.75
+  critical_risk: 0.90
+
+training:
+  test_size: 0.20
+  cv_folds: 5
+  repeated_cv_repeats: 3
+  scoring_metric: "roc_auc"
+  calibration_method: "sigmoid"
+
+models_to_evaluate:
+  - "logistic_regression"
+  - "random_forest"
+  - "extra_trees"
+  - "gradient_boosting"
+  - "adaboost"
+  - "svc"
+  - "stacking_ensemble"
+  - "voting_ensemble"
+  - "neural_network_mlp"
