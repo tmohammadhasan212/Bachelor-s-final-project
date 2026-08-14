@@ -56,18 +56,29 @@ def find_dataset_path(custom_path: Optional[str] = None) -> Path:
 def load_dataset(
     filepath: Optional[str] = None,
     validate: bool = True,
+    standardize_target_encoding: bool = True,
 ) -> pd.DataFrame:
     """Load and optionally validate the heart disease dataset.
+
+    Standardizes target encoding so that:
+    - target = 1: Significant Coronary Artery Disease / High Cardiac Risk
+    - target = 0: Normal Coronary Arteries / Low Risk
 
     Args:
         filepath: Path to the CSV file. If None, resolves default locations.
         validate: Whether to perform schema and range checks.
+        standardize_target_encoding: Whether to align target where 1=Disease.
 
     Returns:
-        Validated pandas DataFrame.
+        Validated pandas DataFrame with clinically aligned target.
     """
     resolved_path = find_dataset_path(filepath)
     df = pd.read_csv(resolved_path)
+
+    # In the raw Kaggle CSV, healthy patients are encoded as 1 and high-ischemia patients as 0.
+    # We standardize to clinical convention: 1 = Disease Presence, 0 = Healthy/Normal.
+    if standardize_target_encoding and "target" in df.columns:
+        df["target"] = 1 - df["target"]
 
     if validate:
         validate_dataset(df)
